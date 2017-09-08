@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">AdvancedRandezvous</string>
     <string name="title_activity_event">AdvancedRandezvous</string>
+    <string name="create_event">Create Event</string>
+    <string name="view_invite">View Invite</string>
+    <string name="view_active_event">View Active Event</string>
+    <string name="event_history">Event History</string>
+    <string name="manage_event">Manage Event</string>
+    <string name="friends">Friends</string>
+    <string name="creat_event_textview">Create Event</string>
+    <string name="create_event_title">Title</string>
+    <string name="create_event_location">Location</string>
+    <string name="create_event_datetime">Date/Time</string>
+    <string name="create_event_cancel">Cancel</string>
+    <string name="create_event_create">Create</string>
 </resources>
