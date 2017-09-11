@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "37871273153",
+    "firebase_url": "https://advancedrendezvous.firebaseio.com",
+    "project_id": "advancedrendezvous",
+    "storage_bucket": "advancedrendezvous.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37871273153:android:d9503c83e3262879",
+        "android_client_info": {
+          "package_name": "com.unipi.mpsp160_02_12.advancedrandezvous"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "37871273153-nmobhrgi29dblvmpeta32759gd6u9vs1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFdqR5eYWgUew5fVThy1y_cnOF_dUOJcQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
