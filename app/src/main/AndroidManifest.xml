@@ -48,9 +48,10 @@
         <activity android:name=".ManageEventsActivity" />
         <activity android:name=".ActiveEventsActivity" />
         <activity android:name=".CompletedEventsActivity" />
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+        <activity android:name=".Auth.LoginActivity" />
+        <activity android:name=".Auth.ForgotPassword" />
+        <activity android:name=".Auth.SingUpActivity" />
+        <activity android:name=".Auth.DashBoard"></activity>
     </application>
 
 </manifest>
