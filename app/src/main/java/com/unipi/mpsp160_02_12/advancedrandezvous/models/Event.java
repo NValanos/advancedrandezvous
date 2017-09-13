@@ -2,6 +2,8 @@ package com.unipi.mpsp160_02_12.advancedrandezvous.models;
 
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Date;
 
 /**
@@ -10,8 +12,8 @@ import java.util.Date;
 
 public class Event {
     String title;
-    Location location;
-    String date;
+    LatLng location;
+    Date date;
 
     public String getTitle() {
         return title;
@@ -21,19 +23,19 @@ public class Event {
         this.title = title;
     }
 
-    public Location getLocation() {
+    public LatLng getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(LatLng location) {
         this.location = location;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }

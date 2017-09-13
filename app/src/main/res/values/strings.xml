@@ -14,7 +14,8 @@
     <string name="creat_event_textview">Create Event</string>
     <string name="create_event_title">Title</string>
     <string name="create_event_location">Location</string>
-    <string name="create_event_datetime">Date/Time</string>
+    <string name="create_event_date">Date</string>
+    <string name="create_event_time">Time</string>
     <string name="create_event_cancel">Cancel</string>
     <string name="create_event_create">Create</string>
 
