@@ -42,6 +42,15 @@ public class SingUpActivity extends AppCompatActivity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if ("".equals(input_email.getText().toString())){
+                    Toast.makeText(SingUpActivity.this, "PLEASE INSERT EMAIL ADDRESS", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if ("".equals(input_pass.getText().toString())){
+                    Toast.makeText(SingUpActivity.this, "PLEASE INSERT PASSWORD ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 singUpUser(input_email.getText().toString(), input_pass.getText().toString());
             }
         });

@@ -45,6 +45,15 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = (Button)findViewById(R.id.login_btn_login);
         btnLogin.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+
+                if ("".equals(input_email.getText().toString())){
+                    Toast.makeText(LoginActivity.this, "PLEASE INSERT EMAIL ADDRESS", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if ("".equals(input_password.getText().toString())){
+                    Toast.makeText(LoginActivity.this, "PLEASE INSERT PASSWORD ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 loginUser(input_email.getText().toString(), input_password.getText().toString());
             }
         });
