@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -51,7 +52,7 @@
         <activity android:name=".Auth.LoginActivity" />
         <activity android:name=".Auth.ForgotPassword" />
         <activity android:name=".Auth.SingUpActivity" />
-        <activity android:name=".Auth.DashBoard"></activity>
+        <activity android:name=".Auth.DashBoard" />
     </application>
 
 </manifest>

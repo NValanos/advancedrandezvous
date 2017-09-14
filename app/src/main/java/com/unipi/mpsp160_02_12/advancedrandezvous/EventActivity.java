@@ -3,6 +3,7 @@ package com.unipi.mpsp160_02_12.advancedrandezvous;
 import android.app.Activity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -12,10 +13,24 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.unipi.mpsp160_02_12.advancedrandezvous.models.Event;
+import com.unipi.mpsp160_02_12.advancedrandezvous.models.LatLong;
+
+import static android.content.ContentValues.TAG;
 
 public class EventActivity extends Activity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private DatabaseReference databaseReference;
+    private DatabaseReference ref;
+    private Event event;
+    public LatLong latLong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,25 +40,43 @@ public class EventActivity extends Activity implements OnMapReadyCallback {
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        ref = databaseReference.child("events");
+
+        Query eventQuery = ref.orderByChild("title").equalTo(this.getIntent().getStringExtra("title"));
+        eventQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+                    event = singleSnapshot.getValue(Event.class);
+                    latLong = event.getLocation();
+//                    if (event != null){
+//                        System.out.println(event.getTitle());
+//                    }
+//                    else{
+//                        System.out.println("The EVENT IS NULL");
+//                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled", databaseError.toException());
+            }
+        });
+
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        LatLng mapsLatLng =
+                new LatLng(latLong.getLatitude(),
+                        latLong.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(mapsLatLng).title("Marker in " + event.getTitle()));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mapsLatLng));
     }
 }

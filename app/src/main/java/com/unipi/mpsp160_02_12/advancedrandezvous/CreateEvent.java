@@ -3,6 +3,7 @@ package com.unipi.mpsp160_02_12.advancedrandezvous;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.Event;
+import com.unipi.mpsp160_02_12.advancedrandezvous.models.LatLong;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -138,7 +140,6 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
                     return;
                 }
 
-//
                 StringTokenizer dateTokenizer =  new StringTokenizer(dateInputText.getText().toString(), "-");
                 int day = Integer.parseInt(dateTokenizer.nextToken());
                 int month = Integer.parseInt(dateTokenizer.nextToken());
@@ -152,6 +153,9 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
                 boolean isCreated = createEvent(titleEditText.getText().toString(), location, date);
                 if (isCreated){
                     Toast.makeText(CreateEvent.this, "Event created", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(CreateEvent.this, EventActivity.class);
+                    intent.putExtra("title", titleEditText.getText().toString());
+                    startActivity(intent);
                 }
                 else{
                     Toast.makeText(CreateEvent.this, "Failed to create event", Toast.LENGTH_SHORT).show();
@@ -167,8 +171,9 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
     protected Boolean createEvent(String title, LatLng location, Date date){
         Event event = new Event();
         event.setTitle(title);
-        event.setLocation(location);
-        event.setDate(date);
+        LatLong latLong = new LatLong(location.latitude, location.longitude);
+        event.setLocation(latLong);
+        event.setDate(date.getTime());
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
