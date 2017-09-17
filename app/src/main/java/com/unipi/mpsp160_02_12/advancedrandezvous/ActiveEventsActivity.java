@@ -1,58 +1,108 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous;
 
 import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
+import android.widget.ListView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.unipi.mpsp160_02_12.advancedrandezvous.models.Event;
+import com.unipi.mpsp160_02_12.advancedrandezvous.models.ActiveListAdapter;
 
-import com.unipi.mpsp160_02_12.advancedrandezvous.R;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+
+import static android.R.id.list;
+import static android.content.ContentValues.TAG;
 
 public class ActiveEventsActivity extends ListActivity {
-
-    // Progress Dialog
-    private ProgressDialog pDialog;
-
-    // Creating JSON Parser object
-//    JSONParser jsonParser = new JSONParser();
-
-    ArrayList<HashMap<String, String>> inboxList;
-
-    // products JSONArray
-    JSONArray inbox = null;
-
-    // Inbox JSON url
-    private static final String INBOX_URL = "https://api.androidhive.info/mail/inbox.json";
-
-    // ALL JSON node names
-    private static final String TAG_MESSAGES = "messages";
-    private static final String TAG_ID = "id";
-    private static final String TAG_FROM = "from";
-    private static final String TAG_EMAIL = "email";
-    private static final String TAG_SUBJECT = "subject";
-    private static final String TAG_DATE = "date";
-
+    private ListView activeList;
+    private DatabaseReference databaseReference;
+    private DatabaseReference ref;
+    private Event event;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.active_events_list);
 
-        // Hashmap for ListView
-        inboxList = new ArrayList<HashMap<String, String>>();
 
-        // Loading INBOX in Background Thread
-//        new LoadInbox().execute();
+        activeList = (ListView)findViewById(list);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        ref = databaseReference.child("events");
+        Query activeEventsQuery = ref.orderByChild("active").equalTo(true);
+
+
+        System.err.println("before listener");
+        activeEventsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Event> activeEventList = new ArrayList<Event>();
+                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+                    event = singleSnapshot.getValue(Event.class);
+                    System.err.println("after db read");
+
+                    if (event != null){
+                        activeEventList.add(event);
+                    }
+                    else{
+                        System.out.println("The EVENT IS NULL");
+                    }
+                }
+
+                ActiveListAdapter listAdapter = new ActiveListAdapter(ActiveEventsActivity.this, android.R.layout.activity_list_item, activeEventList );
+                activeList.setAdapter(listAdapter);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled", databaseError.toException());
+            }
+
+        });
+
+
     }
+
+//    // Progress Dialog
+//    private ProgressDialog pDialog;
+//
+//    // Creating JSON Parser object
+////    JSONParser jsonParser = new JSONParser();
+//
+//    ArrayList<HashMap<String, String>> inboxList;
+//
+//    // products JSONArray
+//    JSONArray inbox = null;
+//
+//    // Inbox JSON url
+//    private static final String INBOX_URL = "https://api.androidhive.info/mail/inbox.json";
+//
+//    // ALL JSON node names
+//    private static final String TAG_MESSAGES = "messages";
+//    private static final String TAG_ID = "id";
+//    private static final String TAG_FROM = "from";
+//    private static final String TAG_EMAIL = "email";
+//    private static final String TAG_SUBJECT = "subject";
+//    private static final String TAG_DATE = "date";
+//
+//
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.active_events_list);
+//
+//        // Hashmap for ListView
+//        inboxList = new ArrayList<HashMap<String, String>>();
+//
+//        // Loading INBOX in Background Thread
+////        new LoadInbox().execute();
+//    }
 
 //    /**
 //     * Background Async Task to Load all INBOX messages by making HTTP Request

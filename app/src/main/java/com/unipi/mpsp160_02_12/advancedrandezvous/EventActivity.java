@@ -39,7 +39,6 @@ public class EventActivity extends Activity implements OnMapReadyCallback {
     private Event event;
     private LatLong latLong;
     private LatLng mapsLatLng = new LatLng(0,0);
-    private FirebaseMultiQuery firebaseMultiQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class EventActivity extends Activity implements OnMapReadyCallback {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         ref = databaseReference.child("events");
 
-        Query eventQuery = ref.orderByChild("title").equalTo(this.getIntent().getStringExtra("title"));
+        Query eventQuery = ref.orderByChild("id").equalTo(this.getIntent().getStringExtra("id"));
         System.err.println("before listener");
         eventQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

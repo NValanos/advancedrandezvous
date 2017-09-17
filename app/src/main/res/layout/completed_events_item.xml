@@ -6,7 +6,7 @@
 
     <!-- Subject Label -->
     <TextView
-        android:id="@+id/subject"
+        android:id="@+id/completed_event_row_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dip"
@@ -16,19 +16,13 @@
         android:textStyle="bold" />
 
     <!-- To email -->
-    <TextView android:id="@+id/to"
+    <TextView android:id="@+id/completed_event_row_date"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:paddingLeft="8dip"
         android:paddingBottom="6dip"
         android:textSize="15dip"
-        android:layout_below="@id/subject"/>
+        android:layout_below="@id/completed_event_row_title"/>
 
-    <!-- Mail date -->
-    <TextView android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:padding="8dip"/>
 
 </RelativeLayout>

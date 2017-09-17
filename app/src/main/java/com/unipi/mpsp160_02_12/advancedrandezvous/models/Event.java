@@ -1,13 +1,44 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous.models;
 
 
+import java.util.List;
+
 /**
  * Created by Dimitris on 11/9/2017.
  */
 
 public class Event {
+    String id;
+    String ownerId;
+    List<String> participantsIdList;
+    boolean active;
     String title;
     LatLong location;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     long date;
 
     public String getTitle() {
@@ -32,5 +63,13 @@ public class Event {
 
     public void setDate(long date) {
         this.date = date;
+    }
+
+    public void setPartiticantsIdList(List<String> participantsIdList) {
+        this.participantsIdList = participantsIdList;
+    }
+
+    public List<String> getParticipantsIdList() {
+        return participantsIdList;
     }
 }

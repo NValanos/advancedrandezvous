@@ -37,6 +37,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.StringTokenizer;
+import java.util.UUID;
 
 import static android.R.attr.onClick;
 import static android.R.attr.y;
@@ -150,11 +151,11 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
                 int min = Integer.parseInt(timeTokenizer.nextToken());
 
                 Date date = new Date(year, month, day, hour, min);
-                boolean isCreated = createEvent(titleEditText.getText().toString(), location, date);
-                if (isCreated){
+                String id = createEvent(titleEditText.getText().toString(), location, date);
+                if (id != null){
                     Toast.makeText(CreateEvent.this, "Event created", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(CreateEvent.this, EventActivity.class);
-                    intent.putExtra("title", titleEditText.getText().toString());
+                    intent.putExtra("id", id);
                     startActivity(intent);
                 }
                 else{
@@ -168,18 +169,20 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    protected Boolean createEvent(String title, LatLng location, Date date){
+    protected String createEvent(String title, LatLng location, Date date){
         Event event = new Event();
+        event.setId(UUID.randomUUID().toString());
         event.setTitle(title);
         LatLong latLong = new LatLong(location.latitude, location.longitude);
         event.setLocation(latLong);
         event.setDate(date.getTime());
+        event.setActive(true);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mDatabase.child("events").child(event.getTitle()).setValue(event);
+        mDatabase.child("events").child(event.getId()).setValue(event);
 
-        return true;
+        return event.getId();
     }
 
     @Override
