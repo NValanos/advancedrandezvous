@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.unipi.mpsp160_02_12.advancedrandezvous.R;
 
 public class DashBoard extends AppCompatActivity {
@@ -23,6 +29,7 @@ public class DashBoard extends AppCompatActivity {
     private Button btnChangePass, btnLogout;
 
     private FirebaseAuth auth;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +45,10 @@ public class DashBoard extends AppCompatActivity {
         btnChangePass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if ("".equals(input_new_password.getText().toString())){
+                    Toast.makeText(getApplicationContext(),"PLEASE INSERT NEW PASSWORD", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 changePassword(input_new_password.getText().toString());
             }
         });
@@ -55,8 +66,21 @@ public class DashBoard extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         //Session Check
-        if (auth.getCurrentUser() != null)
-            txtWelcome.setText("Welcome , " +auth.getCurrentUser().getEmail());
+        if (auth.getCurrentUser() != null){
+            mDatabase = FirebaseDatabase.getInstance().getReference("users");
+            mDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    txtWelcome.setText("Welcome , "+dataSnapshot.child(auth.getCurrentUser().getUid()).child("username").getValue());
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.w("onCancelled", databaseError.toException());
+                }
+            });
+        }
+
     }
 
     private void logoutUser(){

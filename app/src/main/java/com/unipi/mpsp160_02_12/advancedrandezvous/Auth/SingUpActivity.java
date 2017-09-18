@@ -14,16 +14,20 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.unipi.mpsp160_02_12.advancedrandezvous.MainActivity;
 import com.unipi.mpsp160_02_12.advancedrandezvous.R;
+import com.unipi.mpsp160_02_12.advancedrandezvous.models.User;
 
 public class SingUpActivity extends AppCompatActivity {
 
     Button btnSignup;
     TextView btnLogin, btnForgotPass;
-    EditText input_email, input_pass;
+    EditText input_email, input_pass, input_username;
 
     private FirebaseAuth auth;
+    private DatabaseReference mDatabase;
 
 
     @Override
@@ -35,6 +39,7 @@ public class SingUpActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         //View
+        input_username = (EditText)findViewById(R.id.signup_input_username);
         input_email = (EditText)findViewById(R.id.signup_input_email);
         input_pass = (EditText)findViewById(R.id.signup_input_password);
 
@@ -84,9 +89,20 @@ public class SingUpActivity extends AppCompatActivity {
 
                         } else{
                             Toast.makeText(getApplicationContext(),"Register Success ", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(SingUpActivity.this, DashBoard.class));
+                            //Create User to Database
+                            createNewUser(input_username.getText().toString(), input_email.getText().toString(), auth.getCurrentUser().getUid());
+                            startActivity(new Intent(SingUpActivity.this, MainActivity.class));
                         }
                     }
                 });
+    }
+
+    private void createNewUser(String username, String email, String userId){
+
+        User user = new User(username, email);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mDatabase.child("users").child(userId).setValue(user);
     }
 }

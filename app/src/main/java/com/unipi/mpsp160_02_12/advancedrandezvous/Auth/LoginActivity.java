@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //Check already session, if ok-> Dashboard
         if(auth.getCurrentUser() != null)
-            startActivity(new Intent(LoginActivity.this, DashBoard.class));
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
         //View
         input_email = (EditText)findViewById(R.id.login_input_email);
@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"Password length must be over 6",Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            startActivity(new Intent(LoginActivity.this, DashBoard.class));
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
                     }
                 });

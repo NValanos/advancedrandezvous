@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.unipi.mpsp160_02_12.advancedrandezvous.Auth.DashBoard;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button manageEventsButton;
     private Button createEventButton;
+    private Button settingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,15 @@ public class MainActivity extends AppCompatActivity {
         manageEventsButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent intent = new Intent(MainActivity.this, ManageEventsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        settingsButton = (Button)findViewById(R.id.settings);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DashBoard.class);
                 startActivity(intent);
             }
         });
