@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private Button manageEventsButton;
     private Button createEventButton;
     private Button settingsButton;
+    private Button btnfriends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,5 +44,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnfriends = (Button)findViewById(R.id.friends_button);
+        btnfriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FriendsActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

@@ -36,7 +36,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".Auth.LoginActivity"
             android:label="@string/title_activity_event">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,10 +49,11 @@
         <activity android:name=".ManageEventsActivity" />
         <activity android:name=".ActiveEventsActivity" />
         <activity android:name=".CompletedEventsActivity" />
-        <activity android:name=".Auth.LoginActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".Auth.ForgotPassword" />
         <activity android:name=".Auth.SingUpActivity" />
         <activity android:name=".Auth.DashBoard" />
+        <activity android:name=".FriendsActivity"></activity>
     </application>
 
 </manifest>
