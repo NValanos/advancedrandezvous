@@ -54,6 +54,16 @@
         <activity android:name=".Auth.SingUpActivity" />
         <activity android:name=".Auth.DashBoard" />
         <activity android:name=".FriendsActivity"></activity>
+        <service android:name=".Firebase.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service android:name=".Firebase.FirebaseIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
