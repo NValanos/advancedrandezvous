@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -26,13 +27,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.Friend;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
 
 public class FriendsActivity extends AppCompatActivity {
 
-    private Button btnAdd;
     private ListView list;
     private DatabaseReference databaseReference;
     private DatabaseReference ref;
@@ -49,6 +48,7 @@ public class FriendsActivity extends AppCompatActivity {
 
         loadList();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -76,7 +76,6 @@ public class FriendsActivity extends AppCompatActivity {
                                 String task = String.valueOf(taskEditText.getText());
                                 //Add friend to Database
                                 createFriend(task);
-                                loadList();
                             }
                         })
                         .setNegativeButton("Cancel", null)
@@ -89,20 +88,71 @@ public class FriendsActivity extends AppCompatActivity {
     }
 
     protected void createFriend(String email){
-        Friend friend = new Friend();
-        friend.setId(UUID.randomUUID().toString());
-        friend.setEmail(email);
 
-        ref = FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference("users");
 
-        ref.child("users").child(auth.getCurrentUser().getUid()).child("friends").child(friend.getId()).setValue(friend);
+        Query usersQuery = databaseReference.orderByChild("email").equalTo(email);
+
+        usersQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot!=null && dataSnapshot.getChildren()!=null && dataSnapshot.getChildren().iterator().hasNext()){
+                    //User exists to database
+                    for (DataSnapshot userSnapshot: dataSnapshot.getChildren()){
+                        String uemail = userSnapshot.child("email").getValue().toString();
+                        String uid = userSnapshot.child("id").getValue().toString();
+
+                        Friend friend = new Friend();
+                        friend.setId(uid);
+                        friend.setEmail(uemail);
+
+                        databaseReference = FirebaseDatabase.getInstance().getReference();
+                        databaseReference.child("users").child(auth.getCurrentUser().getUid()).child("friends").child(friend.getId()).setValue(friend);
+                        Toast.makeText(FriendsActivity.this,"Friend added Successfully.", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    //User does not exist to database
+                    Toast.makeText(FriendsActivity.this,"The user does not have the application", Toast.LENGTH_SHORT).show();
+                }
+                loadList();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled", databaseError.toException());
+            }
+        });
     }
 
-    protected void deleteFriend(View view){
+    public void deleteFriend(View view){
         View parent = (View)view.getParent();
-        TextView taskTextView = (TextView)findViewById(R.id.friend);
+        TextView taskTextView = (TextView)parent.findViewById(R.id.friend);
         String task = String.valueOf(taskTextView.getText());
+
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(auth.getCurrentUser().getUid()).child("friends");
+        Query removeQuery = databaseReference.orderByChild("email").equalTo(task);
+
+        removeQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot!=null && dataSnapshot.getChildren()!=null && dataSnapshot.getChildren().iterator().hasNext()){
+
+                    for (DataSnapshot removeSnapshot: dataSnapshot.getChildren()){
+                        String fid = removeSnapshot.child("id").getValue().toString();
+                        dataSnapshot.getRef().child(fid).removeValue();
+                    }
+                }
+                loadList();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled", databaseError.toException());
+            }
+        });
     }
+
 
     private void loadList(){
 
@@ -150,8 +200,6 @@ public class FriendsActivity extends AppCompatActivity {
         });
 
     }
-
-
 }
 
 

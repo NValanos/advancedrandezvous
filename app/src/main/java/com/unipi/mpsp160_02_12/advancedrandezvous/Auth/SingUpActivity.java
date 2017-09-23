@@ -99,7 +99,7 @@ public class SingUpActivity extends AppCompatActivity {
 
     private void createNewUser(String username, String email, String userId){
 
-        User user = new User(username, email);
+        User user = new User(username, email, userId);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 

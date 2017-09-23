@@ -8,10 +8,16 @@ public class User {
 
     private String username;
     private String email;
+    private String id;
 
-    public User(String aUsername, String anEmail){
+    public User(){
+
+    }
+
+    public User(String aUsername, String anEmail, String anId){
         username = aUsername;
         email = anEmail;
+        id = anId;
     }
 
     public String getUsername() {
@@ -28,5 +34,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id){
+        this.id = id;
     }
 }

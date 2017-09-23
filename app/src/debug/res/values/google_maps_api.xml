@@ -23,8 +23,8 @@
 
     //Dimitris
 
-    <!--<string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDvd3tcxdZm_1dlOFjRdGJjeddi3mTixwQ</string>-->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDvd3tcxdZm_1dlOFjRdGJjeddi3mTixwQ</string>
 
     //Nikos
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDCuBR2coX4KEkOf-RRXDCi2c4ZHtTUVpg</string>
+    <!--<string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDCuBR2coX4KEkOf-RRXDCi2c4ZHtTUVpg</string>-->
 </resources>
