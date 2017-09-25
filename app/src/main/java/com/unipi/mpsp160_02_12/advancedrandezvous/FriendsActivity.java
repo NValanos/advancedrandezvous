@@ -10,11 +10,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,8 +23,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.Friend;
+import com.unipi.mpsp160_02_12.advancedrandezvous.models.FriendListAdapter;
+import com.unipi.mpsp160_02_12.advancedrandezvous.models.Participant;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
@@ -36,9 +37,11 @@ public class FriendsActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private DatabaseReference ref;
     private Friend friend;
-    ArrayAdapter<String> mAdapter;
+    FriendListAdapter mAdapter;
 
     private FirebaseAuth auth;
+    private String eventId;
+    private List<Friend> friendsArrayList = new ArrayList<>();
 
 
     @Override
@@ -47,6 +50,9 @@ public class FriendsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friends);
 
         loadList();
+        if (getIntent().hasExtra("eventId")){
+            eventId = getIntent().getStringExtra("eventId");
+        }
     }
 
 
@@ -101,10 +107,12 @@ public class FriendsActivity extends AppCompatActivity {
                     for (DataSnapshot userSnapshot: dataSnapshot.getChildren()){
                         String uemail = userSnapshot.child("email").getValue().toString();
                         String uid = userSnapshot.child("id").getValue().toString();
+                        String uname = userSnapshot.child("username").getValue().toString();
 
                         Friend friend = new Friend();
                         friend.setId(uid);
                         friend.setEmail(uemail);
+                        friend.setName(uname);
 
                         databaseReference = FirebaseDatabase.getInstance().getReference();
                         databaseReference.child("users").child(auth.getCurrentUser().getUid()).child("friends").child(friend.getId()).setValue(friend);
@@ -124,14 +132,24 @@ public class FriendsActivity extends AppCompatActivity {
         });
     }
 
+    public void chooseAction(View view){
+        if (eventId == null){
+            deleteFriend(view);
+        }
+        else{
+            addParticipant(view);
+        }
+
+
+    }
+
     public void deleteFriend(View view){
         View parent = (View)view.getParent();
-        TextView taskTextView = (TextView)parent.findViewById(R.id.friend);
-        String task = String.valueOf(taskTextView.getText());
+        Friend friendToDelete = friendsArrayList.get(list.getPositionForView(parent));
 
 
         databaseReference = FirebaseDatabase.getInstance().getReference("users").child(auth.getCurrentUser().getUid()).child("friends");
-        Query removeQuery = databaseReference.orderByChild("email").equalTo(task);
+        Query removeQuery = databaseReference.orderByChild("email").equalTo(friendToDelete.getEmail());
 
         removeQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -144,6 +162,46 @@ public class FriendsActivity extends AppCompatActivity {
                     }
                 }
                 loadList();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled", databaseError.toException());
+            }
+        });
+    }
+
+    public void addParticipant(View view){
+        View parent = (View)view.getParent();
+        final Friend friendToParticipate = friendsArrayList.get(list.getPositionForView(parent));
+
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("events").child(eventId).child("participantsIdList");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int count = 0;
+                boolean duplicate = false;
+                for(DataSnapshot participantSnapshot : dataSnapshot.getChildren()){
+                    Participant partSnap = participantSnapshot.getValue(Participant.class);
+                    if (partSnap.getId().equals(friendToParticipate.getId())){
+                        duplicate = true;
+                    }
+                    count++;
+                }
+                if (duplicate){
+                    Toast.makeText(FriendsActivity.this, "Already Participant", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Participant participant = new Participant();
+                    participant.setId(friendToParticipate.getId());
+                    participant.setName(friendToParticipate.getName());
+                    participant.setTag("Pending");
+
+                    databaseReference.child(String.valueOf(count)).setValue(participant);
+                }
+                finish();
             }
 
             @Override
@@ -169,6 +227,7 @@ public class FriendsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<String> friendList = new ArrayList<String>();
+                friendsArrayList = new ArrayList<Friend>();
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                     friend = singleSnapshot.getValue(Friend.class);
 
@@ -176,6 +235,7 @@ public class FriendsActivity extends AppCompatActivity {
 
                     if (friend != null){
                         friendList.add(friend.getEmail());
+                        friendsArrayList.add(friend);
                         System.out.println("The FRIEND ADDED");
                     }
                     else{
@@ -184,11 +244,11 @@ public class FriendsActivity extends AppCompatActivity {
                 }
 
                 if(mAdapter == null){
-                    mAdapter = new ArrayAdapter<String>(FriendsActivity.this ,R.layout.row, R.id.friend, friendList);
+                    mAdapter = new FriendListAdapter(FriendsActivity.this, R.layout.row, friendsArrayList);
                     list.setAdapter(mAdapter);
                 } else {
                     mAdapter.clear();
-                    mAdapter.addAll(friendList);
+                    mAdapter.addAll(friendsArrayList);
                     mAdapter.notifyDataSetChanged();
                 }
             }

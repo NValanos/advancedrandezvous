@@ -10,7 +10,7 @@ import java.util.List;
 public class Event {
     String id;
     String ownerId;
-    List<String> participantsIdList;
+    List<Participant> participantsIdList;
     boolean active;
     String title;
     LatLong location;
@@ -65,11 +65,11 @@ public class Event {
         this.date = date;
     }
 
-    public void setPartiticantsIdList(List<String> participantsIdList) {
+    public void setParticipantsIdList(List<Participant> participantsIdList) {
         this.participantsIdList = participantsIdList;
     }
 
-    public List<String> getParticipantsIdList() {
+    public List<Participant> getParticipantsIdList() {
         return participantsIdList;
     }
 }

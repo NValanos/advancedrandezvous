@@ -16,33 +16,31 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.Event;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.LatLong;
+import com.unipi.mpsp160_02_12.advancedrandezvous.models.Participant;
+import com.unipi.mpsp160_02_12.advancedrandezvous.models.User;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.UUID;
-
-import static android.R.attr.onClick;
-import static android.R.attr.y;
-import static android.text.format.DateFormat.is24HourFormat;
-import static java.sql.DriverManager.println;
 
 public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback{
     private Button createEventButton;
@@ -54,6 +52,8 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
     private SimpleDateFormat dateFormatter;
+    private FirebaseAuth auth;
+    private User owner;
 
 
     private DatabaseReference mDatabase;
@@ -63,6 +63,28 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
         Calendar newCalendar = Calendar.getInstance();
+        //Init Firebase
+        auth = FirebaseAuth.getInstance();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        Query ownerQuery = mDatabase.orderByChild("id").equalTo(auth.getCurrentUser().getUid());
+        ownerQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot!=null && dataSnapshot.getChildren()!=null && dataSnapshot.getChildren().iterator().hasNext()){
+
+                    for (DataSnapshot ownerSnapshot: dataSnapshot.getChildren()){
+                        owner = ownerSnapshot.getValue(User.class);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
@@ -116,10 +138,6 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
         createEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //for now
-//                Location loc  = new Location("random location");
-//                loc.setLatitude(0.0d);
-//                loc.setLongitude(0.0d);
 
                 if ("".equals(titleEditText.getText().toString())){
                     Toast.makeText(CreateEvent.this, "PLEASE ADD TITLE", Toast.LENGTH_SHORT).show();
@@ -177,6 +195,16 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
         event.setLocation(latLong);
         event.setDate(date.getTime());
         event.setActive(true);
+        event.setOwnerId(owner.getId());
+
+        Participant participant = new Participant();
+        participant.setName(owner.getUsername());
+        participant.setId(owner.getId());
+        participant.setTag("Accepted");
+
+        List<Participant> participantsList = new ArrayList<>();
+        participantsList.add(participant);
+        event.setParticipantsIdList(participantsList);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 

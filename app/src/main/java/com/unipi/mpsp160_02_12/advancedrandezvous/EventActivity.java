@@ -2,8 +2,11 @@ package com.unipi.mpsp160_02_12.advancedrandezvous;
 
 import android.app.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -39,6 +42,7 @@ public class EventActivity extends Activity implements OnMapReadyCallback {
     private Event event;
     private LatLong latLong;
     private LatLng mapsLatLng = new LatLng(0,0);
+    private Button managePartitipantsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,18 @@ public class EventActivity extends Activity implements OnMapReadyCallback {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         titleTextView = (TextView)findViewById(R.id.eventName);
         dateTextView = (TextView)findViewById(R.id.eventDate);
+
+        managePartitipantsButton = (Button)findViewById(R.id.managePartitipantsButton);
+        managePartitipantsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EventActivity.this, ManageParticipantsActivity.class);
+                if(event!= null) {
+                    intent.putExtra("eventId", event.getId());
+                    startActivity(intent);
+                }
+            }
+        });
 
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
