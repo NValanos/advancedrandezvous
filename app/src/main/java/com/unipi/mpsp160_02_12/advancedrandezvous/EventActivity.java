@@ -6,15 +6,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -23,7 +26,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.unipi.mpsp160_02_12.advancedrandezvous.Firebase.FirebaseMultiQuery;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.Event;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.LatLong;
 
@@ -31,7 +33,7 @@ import java.util.Date;
 
 import static android.content.ContentValues.TAG;
 
-public class EventActivity extends Activity implements OnMapReadyCallback {
+public class EventActivity extends Activity implements OnMapReadyCallback, AdapterView.OnItemSelectedListener {
 
     private Date date;
     private TextView titleTextView;
@@ -104,8 +106,16 @@ public class EventActivity extends Activity implements OnMapReadyCallback {
         });
         System.err.println("after listener");
 
+        //Spinner
+        Spinner spinner = (Spinner)findViewById(R.id.spinnerState);
 
+        ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(this, R.array.state, android.R.layout.simple_spinner_item);
+        stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(stateAdapter);
+        spinner.setOnItemSelectedListener(this);
     }
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -116,5 +126,16 @@ public class EventActivity extends Activity implements OnMapReadyCallback {
 
         mMap.addMarker(new MarkerOptions().position(mapsLatLng).title("Marker"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mapsLatLng));
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String stateSelected = parent.getItemAtPosition(position).toString();
+        Toast.makeText(this, stateSelected, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
