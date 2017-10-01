@@ -1,5 +1,7 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous.Firebase;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,15 +22,25 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
     public void onTokenRefresh() {
         super.onTokenRefresh();
         String instanceId = FirebaseInstanceId.getInstance().getToken();
+        System.out.println("InstanceID: " + instanceId);
         Log.d("@@@@", "onTokenRefresh: " + instanceId);
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (firebaseUser != null) {
-            FirebaseDatabase.getInstance().getReference()
-                    .child("users")
-                    .child(firebaseUser.getUid())
-                    .child("instanceId")
-                    .setValue(instanceId);
-        }
+
+        // Access Shared Preferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        // Save to SharedPreferences
+        editor.putString("instanceId", instanceId);
+        editor.apply();
+
+//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//        if (firebaseUser != null) {
+//            FirebaseDatabase.getInstance().getReference()
+//                    .child("users")
+//                    .child(firebaseUser.getUid())
+//                    .child("instanceId")
+//                    .setValue(instanceId);
+//        }
     }
 
     /**

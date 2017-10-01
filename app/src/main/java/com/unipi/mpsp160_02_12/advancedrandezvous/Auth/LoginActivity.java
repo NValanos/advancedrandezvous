@@ -1,6 +1,8 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous.Auth;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.unipi.mpsp160_02_12.advancedrandezvous.MainActivity;
 import com.unipi.mpsp160_02_12.advancedrandezvous.R;
 
@@ -91,7 +95,20 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"Password length must be over 6",Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                            String instanceId = preferences.getString("instanceId", null);
+
+                            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                            if (firebaseUser != null) {
+                                FirebaseDatabase.getInstance().getReference()
+                                        .child("users")
+                                        .child(firebaseUser.getUid())
+                                        .child("instanceId")
+                                        .setValue(instanceId);
+//        }
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            }
                         }
                     }
                 });

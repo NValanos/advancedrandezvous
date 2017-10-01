@@ -9,6 +9,15 @@ public class User {
     private String username;
     private String email;
     private String id;
+    private String instanceId;
+
+    public String getInstanceId() {
+        return instanceId;
+    }
+
+    public void setInstanceId(String instanceId) {
+        this.instanceId = instanceId;
+    }
 
     public User(){
 
