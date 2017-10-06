@@ -86,7 +86,7 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
 
         titleEditText = (EditText)findViewById(R.id.title_edit_text);
 
@@ -168,8 +168,10 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
                 int hour = Integer.parseInt(timeTokenizer.nextToken());
                 int min = Integer.parseInt(timeTokenizer.nextToken());
 
-                Date date = new Date(year, month, day, hour, min);
-                String id = createEvent(titleEditText.getText().toString(), location, date);
+                Calendar date = Calendar.getInstance();
+                date.set(year, month -1, day, hour, min);
+                System.out.println("Date before method: " + date.getTime().toString());
+                String id = createEvent(titleEditText.getText().toString(), location, date.getTime());
                 if (id != null){
                     Toast.makeText(CreateEvent.this, "Event created", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(CreateEvent.this, EventActivity.class);
@@ -193,6 +195,7 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
         event.setTitle(title);
         LatLong latLong = new LatLong(location.latitude, location.longitude);
         event.setLocation(latLong);
+        System.out.println("Creating date: " + date.toString());
         event.setDate(date.getTime());
         event.setActive(true);
         event.setOwnerId(owner.getId());

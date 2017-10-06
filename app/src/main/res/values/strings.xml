@@ -37,4 +37,5 @@
     <string name="active_spec">Active</string>
     <string name="completed_spec">Completed</string>
     <string name="title_activity_maps">Map</string>
+    <string name="check_in_button">Check In</string>
 </resources>
