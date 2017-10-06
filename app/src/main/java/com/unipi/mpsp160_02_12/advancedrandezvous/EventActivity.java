@@ -20,6 +20,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +46,8 @@ public class EventActivity extends Activity implements OnMapReadyCallback, Adapt
     private LatLong latLong;
     private LatLng mapsLatLng = new LatLng(0,0);
     private Button managePartitipantsButton;
+
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,8 +133,30 @@ public class EventActivity extends Activity implements OnMapReadyCallback, Adapt
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String stateSelected = parent.getItemAtPosition(position).toString();
+        final String stateSelected = parent.getItemAtPosition(position).toString();
         Toast.makeText(this, stateSelected, Toast.LENGTH_SHORT).show();
+
+        final String eventKey = getIntent().getStringExtra("id");
+
+        auth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("events").child(eventKey).child("participantsIdList").orderByChild("id").equalTo(auth.getCurrentUser().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot keySnapShot: dataSnapshot.getChildren()){
+                            String participantKey = keySnapShot.getKey();
+
+                            databaseReference = FirebaseDatabase.getInstance().getReference();
+                            databaseReference.child("events").child(eventKey).child("participantsIdList").child(participantKey).child("tag").setValue(stateSelected);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     @Override
