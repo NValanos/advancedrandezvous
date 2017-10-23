@@ -10,7 +10,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -43,7 +47,7 @@ import java.util.Date;
 
 import static android.content.ContentValues.TAG;
 
-public class EventActivity extends Activity implements OnMapReadyCallback, AdapterView.OnItemSelectedListener {
+public class EventActivity extends AppCompatActivity implements OnMapReadyCallback, AdapterView.OnItemSelectedListener {
 
     private Date date;
     private TextView titleTextView;
@@ -64,6 +68,10 @@ public class EventActivity extends Activity implements OnMapReadyCallback, Adapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_activity);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.event_toolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle(R.string.event_details);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         locationManager=(LocationManager)getSystemService(LOCATION_SERVICE);
         titleTextView = (TextView)findViewById(R.id.eventName);
@@ -209,6 +217,27 @@ public class EventActivity extends Activity implements OnMapReadyCallback, Adapt
                     System.out.println(eventDate.toString());
                     if (currentTime.after(eventDate) && currentTime.before(afterEventDate.getTime())){
                         Toast.makeText(this, "Welcome to the event", Toast.LENGTH_SHORT).show();
+                        final String eventKey = getIntent().getStringExtra("id");
+
+                        auth = FirebaseAuth.getInstance();
+                        databaseReference = FirebaseDatabase.getInstance().getReference();
+                        databaseReference.child("events").child(eventKey).child("participantsIdList").orderByChild("id").equalTo(auth.getCurrentUser().getUid())
+                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot keySnapShot: dataSnapshot.getChildren()){
+                                            String participantKey = keySnapShot.getKey();
+
+                                            databaseReference = FirebaseDatabase.getInstance().getReference();
+                                            databaseReference.child("events").child(eventKey).child("participantsIdList").child(participantKey).child("tag").setValue("Attended");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
                     }
                     else if (currentTime.after(eventDate)){
                         Toast.makeText(this, "The event date has passed", Toast.LENGTH_SHORT).show();
@@ -250,6 +279,32 @@ public class EventActivity extends Activity implements OnMapReadyCallback, Adapt
             Toast.makeText(EventActivity.this,
                     "Provider enabled by the user. GPS turned on",
                     Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_settings:
+                Intent  intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.action_logout:
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
         }
     }
 }

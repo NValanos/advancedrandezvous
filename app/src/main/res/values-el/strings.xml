@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings">Ρυθμίσεις</string>
+
+
+    <!-- Strings related to Create Event Activity -->
+    <string name="creat_event_textview">Δημιουργία Εκδήλωσης</string>
+    <string name="create_event_title">Τίτλος</string>
+    <string name="create_event_location">Τοποθεσία</string>
+    <string name="create_event_date">Ημερομηνία</string>
+    <string name="create_event_time">Ώρα</string>
+    <string name="create_event_cancel">Ακύρωση</string>
+    <string name="create_event_create">Δημιουργία</string>
+
+    <!-- Strings related to Main Activity -->
+    <string name="create_event">Δημιουργία Εκδήλωσης</string>
+    <string name="view_invite">View Invite</string>
+    <string name="view_active_event">View Active Event</string>
+    <string name="event_history">Ιστορικό</string>
+    <string name="manage_event">Διαχείρηση Εκδηλώσεων</string>
+    <string name="friends">Φίλοι</string>
+
+    <!-- Settings Activity -->
+    <string name="language">Γλώσσα</string>
+    <string name="english">English</string>
+    <string name="greek">Ελληνικά</string>
+    <string name="save_settings">Αποθήκευση</string>
+
+    <!-- Event Activity-->
+    <string name="event_details">Λεπτομέρειες Εκδήλωσης</string>
+    <string name="state">Κατάσταση</string>
+    <string name="title">Τίτλος</string>
+    <string name="manage_participants">Διαχείρηση Συμμετεχόντων</string>
+    <string name="active_spec">Ενεργό</string>
+    <string name="completed_spec">Ολοκληρωμένο</string>
+    <string name="title_activity_maps">Χάρτης</string>
+    <string name="check_in_button">Έλεγχος</string>
+    <string name="title_activity_settings">Ρυθμίσεις</string>
+    <string name="action_logout">Αποσύνδεση</string>
+
+</resources>

@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context="com.unipi.mpsp160_02_12.advancedrandezvous.MainActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="368dp"
+        android:layout_height="56dp"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp" />
+
     <Button
         android:id="@+id/create_event_activity_button"
         android:layout_width="wrap_content"
