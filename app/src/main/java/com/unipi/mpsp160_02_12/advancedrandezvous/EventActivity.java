@@ -1,8 +1,6 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous;
 
-import android.app.Activity;
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -15,9 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -41,6 +37,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.Event;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.LatLong;
+import com.unipi.mpsp160_02_12.advancedrandezvous.models.Participant;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -61,6 +58,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     private Button managePartitipantsButton;
     private Button checkInButton;
     private LocationManager locationManager;
+    private Participant participant;
 
     private FirebaseAuth auth;
 
@@ -137,16 +135,39 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         });
         System.err.println("after listener");
 
-        //Spinner
-        Spinner spinner = (Spinner)findViewById(R.id.spinnerState);
+        //+=+=+=+=+=Spinner=+=+=+=+=+
+        final String eventKey = getIntent().getStringExtra("id");
 
-        ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(this, R.array.state, android.R.layout.simple_spinner_item);
-        stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(stateAdapter);
-        spinner.setOnItemSelectedListener(this);
+        auth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("events").child(eventKey).child("participantsIdList").orderByChild("id").equalTo(auth.getCurrentUser().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot participSnapShot: dataSnapshot.getChildren()){
+                            participant = participSnapShot.getValue(Participant.class);
+
+                            Spinner spinner = (Spinner)findViewById(R.id.spinnerState);
+
+                            ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(EventActivity.this, R.array.state, android.R.layout.simple_spinner_item);
+                            stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinner.setAdapter(stateAdapter);
+                            int index = 0;
+                            for (int i=0; i<spinner.getCount(); i++){
+                                if (spinner.getItemAtPosition(i).equals(participant.getTag())){
+                                    index = i;
+                                }
+                            }
+                            spinner.setSelection(index);
+                            spinner.setOnItemSelectedListener(EventActivity.this);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
-
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
