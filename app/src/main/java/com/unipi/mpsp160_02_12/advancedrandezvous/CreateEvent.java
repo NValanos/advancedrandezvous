@@ -1,15 +1,14 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +18,10 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -51,6 +54,7 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
     private EditText dateInputText;
     private EditText timeInputText;
     private GoogleMap mMap;
+    PlaceAutocompleteFragment placeAutoComplete;
     private static LatLng location;
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
@@ -85,7 +89,6 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
                         owner = ownerSnapshot.getValue(User.class);
                     }
                 }
-
             }
 
             @Override
@@ -137,6 +140,24 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
             }
         },newCalendar.get(Calendar.HOUR_OF_DAY), newCalendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(this));
 
+
+        //+=+=+=Google Search=+=+=+
+        placeAutoComplete = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete);
+        placeAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+
+                location = place.getLatLng();
+                mMap.addMarker(new MarkerOptions().position(location).title("You are Here"));
+
+                Log.d("Maps", "Place selected: " + place.getName());
+            }
+
+            @Override
+            public void onError(Status status) {
+                Log.d("Maps", "An error occurred: " + status);
+            }
+        });
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.create_event_map);
@@ -211,7 +232,7 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
         Participant participant = new Participant();
         participant.setName(owner.getUsername());
         participant.setId(owner.getId());
-        participant.setTag("Accepted");
+        participant.setTag("Accept");
 
         List<Participant> participantsList = new ArrayList<>();
         participantsList.add(participant);
@@ -229,14 +250,14 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(latLng).title("You are here"));
-                location = latLng;
-            }
-        });
+//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(LatLng latLng) {
+//                mMap.clear();
+//                mMap.addMarker(new MarkerOptions().position(latLng).title("You are here"));
+//                location = latLng;
+//            }
+//        });
     }
 
     @Override
