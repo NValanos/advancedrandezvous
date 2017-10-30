@@ -94,10 +94,11 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putString("languageToLoad",languageToLoad );
                 editor.commit();
 
-                Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("EXIT", true);
-                startActivity(intent);
+//                Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                intent.putExtra("EXIT", true);
+//                startActivity(intent);
+                finish();
 
             }
         });
