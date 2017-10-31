@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.unipi.mpsp160_02_12.advancedrandezvous.FriendsActivity;
 import com.unipi.mpsp160_02_12.advancedrandezvous.R;
 
 import java.util.List;
@@ -44,6 +46,14 @@ public class FriendListAdapter extends ArrayAdapter<Friend> {
             if (tt1 != null) {
                 tt1.setText(p.getEmail());
 
+            }
+
+            Button btn = (Button) v.findViewById(R.id.btnListAction);
+            if (FriendsActivity.isFromEvent){
+                btn.setText(R.string.add);
+            }
+            else{
+                btn.setText(R.string.delete);
             }
 
         }

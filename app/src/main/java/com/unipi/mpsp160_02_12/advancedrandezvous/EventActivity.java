@@ -1,8 +1,10 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -26,6 +28,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -120,7 +123,13 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                         dateTextView.setText(date.toString());
                         mMap.clear();
                         mMap.addMarker(new MarkerOptions().position(mapsLatLng).title("Marker"));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(mapsLatLng));
+                        CameraPosition cameraPosition = new CameraPosition.Builder()
+                                .target(new LatLng(mapsLatLng.latitude, mapsLatLng.longitude))      // Sets the center of the map to location user
+                                .zoom(17)                   // Sets the zoom
+                                .bearing(90)                // Sets the orientation of the camera to east
+                                .tilt(40)                   // Sets the tilt of the camera to 30 degrees
+                                .build();                   // Creates a CameraPosition from the builder
+                        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     }
                     else{
                         System.out.println("The EVENT IS NULL");
@@ -149,6 +158,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
 
                             Spinner spinner = (Spinner)findViewById(R.id.spinnerState);
 
+
                             ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(EventActivity.this, R.array.state, android.R.layout.simple_spinner_item);
                             stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinner.setAdapter(stateAdapter);
@@ -172,12 +182,6 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        System.err.println("when creating map");
-
-        mMap.addMarker(new MarkerOptions().position(mapsLatLng).title("Marker"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(mapsLatLng));
     }
 
     @Override
@@ -189,7 +193,6 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         else{
             checkInButton.setVisibility(View.INVISIBLE);
         }
-        Toast.makeText(this, stateSelected, Toast.LENGTH_SHORT).show();
 
         final String eventKey = getIntent().getStringExtra("id");
 

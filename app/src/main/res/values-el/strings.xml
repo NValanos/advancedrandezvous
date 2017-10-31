@@ -38,4 +38,8 @@
     <string name="title_activity_settings">Ρυθμίσεις</string>
     <string name="action_logout">Αποσύνδεση</string>
 
+    <!-- Friend Activity -->
+    <string name="add">Πρόσθεση</string>
+    <string name="delete">Διαγραφή</string>
+
 </resources>

@@ -1,10 +1,12 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,6 +46,10 @@ public class ManageParticipantsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manage_participants_layout);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.participants_toolbar);
+        myToolbar.setBackgroundColor(Color.parseColor("#000000"));
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle(R.string.event_details);
 
         eventId = getIntent().getStringExtra("eventId");
         loadList();

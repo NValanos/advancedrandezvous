@@ -1,15 +1,18 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -37,20 +40,29 @@ public class FriendsActivity extends AppCompatActivity {
     private DatabaseReference ref;
     private Friend friend;
     FriendListAdapter mAdapter;
-
+    private Button listBtn;
     private FirebaseAuth auth;
     private String eventId;
     private List<Friend> friendsArrayList = new ArrayList<>();
+    public static Boolean isFromEvent;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
-
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.friends_toolbar);
+        myToolbar.setBackgroundColor(Color.parseColor("#000000"));
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle(R.string.event_details);
+        listBtn = (Button)findViewById(R.id.btnListAction);
         loadList();
         if (getIntent().hasExtra("eventId")){
             eventId = getIntent().getStringExtra("eventId");
+            isFromEvent = true;
+        }
+        else{
+            isFromEvent = false;
         }
     }
 
@@ -122,6 +134,7 @@ public class FriendsActivity extends AppCompatActivity {
                     Toast.makeText(FriendsActivity.this,"The user does not have the application", Toast.LENGTH_SHORT).show();
                 }
                 loadList();
+
             }
 
             @Override
@@ -245,6 +258,7 @@ public class FriendsActivity extends AppCompatActivity {
                 if(mAdapter == null){
                     mAdapter = new FriendListAdapter(FriendsActivity.this, R.layout.row, friendsArrayList);
                     list.setAdapter(mAdapter);
+
                 } else {
                     mAdapter.clear();
                     mAdapter.addAll(friendsArrayList);
@@ -266,6 +280,7 @@ public class FriendsActivity extends AppCompatActivity {
         finish();
         startActivity(getIntent());
     }
+
 }
 
 

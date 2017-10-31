@@ -60,6 +60,7 @@ import java.util.UUID;
 
 public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback{
     private Button createEventButton;
+    private Button cancelEventButton;
     private EditText titleEditText;
     private EditText dateInputText;
     private EditText timeInputText;
@@ -83,6 +84,14 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
         Toolbar myToolbar = (Toolbar) findViewById(R.id.create_event_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(R.string.event_details);
+
+        cancelEventButton = (Button)findViewById(R.id.cancel_creation_button);
+        cancelEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         //Init Firebase
@@ -160,6 +169,14 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
                 location = place.getLatLng();
                 mMap.addMarker(new MarkerOptions().position(location).title("You are Here"));
 
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(new LatLng(location.latitude, location.longitude))      // Sets the center of the map to location user
+                        .zoom(17)                   // Sets the zoom
+                        .bearing(90)                // Sets the orientation of the camera to east
+                        .tilt(40)                   // Sets the tilt of the camera to 30 degrees
+                        .build();                   // Creates a CameraPosition from the builder
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
                 Log.d("Maps", "Place selected: " + place.getName());
             }
 
@@ -220,12 +237,8 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
                 else{
                     Toast.makeText(CreateEvent.this, "Failed to create event", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
-
-
     }
 
     protected String createEvent(String title, LatLng location, Date date){
@@ -271,21 +284,11 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
                         .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
                         .zoom(17)                   // Sets the zoom
                         .bearing(90)                // Sets the orientation of the camera to east
-//                        .tilt(40)                   // Sets the tilt of the camera to 30 degrees
+                        .tilt(40)                   // Sets the tilt of the camera to 30 degrees
                         .build();                   // Creates a CameraPosition from the builder
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         }
-
-        // Add a marker in Sydney and move the camera
-//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//            @Override
-//            public void onMapClick(LatLng latLng) {
-//                mMap.clear();
-//                mMap.addMarker(new MarkerOptions().position(latLng).title("You are here"));
-//                location = latLng;
-//            }
-//        });
     }
 
     @Override

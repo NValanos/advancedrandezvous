@@ -62,6 +62,7 @@ public class ActiveEventsActivity extends ListActivity {
                         for (Participant participant: partList){
                             if (participant.getId().equals(auth.getCurrentUser().getUid())){
                                 activeEventList.add(event);
+                                break;
                             }
                         }
                     }
