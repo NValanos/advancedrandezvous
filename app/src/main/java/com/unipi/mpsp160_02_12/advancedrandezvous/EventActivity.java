@@ -328,4 +328,12 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
 
         }
     }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
+
 }
