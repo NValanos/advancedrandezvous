@@ -17,7 +17,9 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -94,6 +96,17 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
         });
 
 
+        //Hide Keyboard by tap outside
+        findViewById(R.id.create_event_Layout).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                return true;
+            }
+        });
+
+
         //Init Firebase
         auth = FirebaseAuth.getInstance();
 
@@ -124,10 +137,14 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
         dateInputText.setInputType(InputType.TYPE_NULL);
         dateInputText.requestFocus();
 
-        dateInputText.setOnClickListener( new View.OnClickListener(){
+        findViewById(R.id.date_input_text).setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v){
+            public boolean onTouch(View v, MotionEvent event) {
+                //No keyboard at All
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 datePickerDialog.show();
+                return true;
             }
         });
 
@@ -145,10 +162,14 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
         timeInputText.setInputType(InputType.TYPE_NULL);
         timeInputText.requestFocus();
 
-        timeInputText.setOnClickListener( new View.OnClickListener(){
+        findViewById(R.id.time_input_text).setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v){
+            public boolean onTouch(View v, MotionEvent event) {
+                //No keyboard at All
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 timePickerDialog.show();
+                return true;
             }
         });
 
