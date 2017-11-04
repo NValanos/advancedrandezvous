@@ -1,6 +1,7 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous;
 
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -23,7 +24,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar.setTitleTextColor(getResources().getColor(R.color.amber));
         setSupportActionBar(myToolbar);
+
+        ActivityCompat.requestPermissions(this,
+                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},123);
 
         createEventButton = (Button)findViewById(R.id.create_event_activity_button);
         createEventButton.setOnClickListener(new View.OnClickListener(){
@@ -41,14 +46,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        settingsButton = (Button)findViewById(R.id.settings);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, DashBoard.class);
-                startActivity(intent);
-            }
-        });
+//        settingsButton = (Button)findViewById(R.id.settings);
+//        settingsButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, DashBoard.class);
+//                startActivity(intent);
+//            }
+//        });
 
         btnfriends = (Button)findViewById(R.id.friends_button);
         btnfriends.setOnClickListener(new View.OnClickListener() {

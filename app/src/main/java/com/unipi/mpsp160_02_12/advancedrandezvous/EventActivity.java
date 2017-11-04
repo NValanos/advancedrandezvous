@@ -70,6 +70,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_activity);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.event_toolbar);
+        myToolbar.setTitleTextColor(getResources().getColor(R.color.amber));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(R.string.event_details);
 

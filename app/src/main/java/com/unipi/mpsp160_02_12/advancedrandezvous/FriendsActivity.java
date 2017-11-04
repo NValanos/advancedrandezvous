@@ -52,9 +52,9 @@ public class FriendsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.friends_toolbar);
-        myToolbar.setBackgroundColor(Color.parseColor("#000000"));
+        myToolbar.setTitleTextColor(getResources().getColor(R.color.amber));
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle(R.string.event_details);
+        getSupportActionBar().setTitle(R.string.friends);
         listBtn = (Button)findViewById(R.id.btnListAction);
         loadList();
         if (getIntent().hasExtra("eventId")){

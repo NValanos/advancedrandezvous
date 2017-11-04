@@ -35,8 +35,10 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.settings_toolbar);
+        myToolbar.setTitleTextColor(getResources().getColor(R.color.amber));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(R.string.settings);
+
         if (getIntent().getBooleanExtra("EXIT", false))
         {
             finish();

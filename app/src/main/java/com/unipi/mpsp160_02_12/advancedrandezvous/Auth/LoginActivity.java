@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"Password length must be over 6",Toast.LENGTH_SHORT).show();
                             }
                         } else {
-
+                            System.out.println("inside onComplete");
                             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                             String instanceId = preferences.getString("instanceId", null);
 

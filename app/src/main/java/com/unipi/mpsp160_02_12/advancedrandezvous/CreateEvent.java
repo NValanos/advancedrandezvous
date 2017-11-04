@@ -1,5 +1,6 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous;
 
+import android.*;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -84,8 +86,11 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_create_event);
         Calendar newCalendar = Calendar.getInstance();
         Toolbar myToolbar = (Toolbar) findViewById(R.id.create_event_toolbar);
+        myToolbar.setTitleTextColor(getResources().getColor(R.color.amber));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(R.string.event_details);
+
+
 
         cancelEventButton = (Button)findViewById(R.id.cancel_creation_button);
         cancelEventButton.setOnClickListener(new View.OnClickListener() {
@@ -296,7 +301,10 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
         Criteria criteria = new Criteria();
 
         if (ActivityCompat.checkSelfPermission(CreateEvent.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            System.out.println("Is provider enabled? " + locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER));
+            System.out.println("Is provider enabled? " + locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER));
             Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+            System.out.println("Location: " + location);
             if (location != null)
             {
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));

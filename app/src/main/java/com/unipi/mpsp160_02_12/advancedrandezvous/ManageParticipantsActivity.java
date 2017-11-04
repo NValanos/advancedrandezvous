@@ -47,7 +47,7 @@ public class ManageParticipantsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manage_participants_layout);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.participants_toolbar);
-        myToolbar.setBackgroundColor(Color.parseColor("#000000"));
+        myToolbar.setTitleTextColor(getResources().getColor(R.color.amber));
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(R.string.event_details);
 
