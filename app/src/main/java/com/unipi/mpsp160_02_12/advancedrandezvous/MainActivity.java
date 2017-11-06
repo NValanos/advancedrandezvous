@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
         myToolbar.setTitleTextColor(getResources().getColor(R.color.amber));
         setSupportActionBar(myToolbar);
 
-        ActivityCompat.requestPermissions(this,
-                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},123);
+//        ActivityCompat.requestPermissions(this,
+//                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},123);
 
         createEventButton = (Button)findViewById(R.id.create_event_activity_button);
         createEventButton.setOnClickListener(new View.OnClickListener(){

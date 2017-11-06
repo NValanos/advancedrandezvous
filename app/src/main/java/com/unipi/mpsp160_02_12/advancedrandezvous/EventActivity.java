@@ -226,6 +226,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     private void checkCurrentLocation(){
 
         if (ActivityCompat.checkSelfPermission(EventActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (location != null) {
 
@@ -339,5 +340,24 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         finish();
         startActivity(getIntent());
     }
+
+    private LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            String message = String.format(
+                    "New Location \n Longitude: %1$s \n Latitude: %2$s",
+                    location.getLongitude(), location.getLatitude()
+            );
+            System.out.println(message);
+        }
+        public void onStatusChanged(String s, int i, Bundle b) {
+            System.out.println("Provider status changed");
+        }
+        public void onProviderDisabled(String s) {
+            System.out.println("Provider disabled by the user. GPS turned off");
+        }
+        public void onProviderEnabled(String s) {
+            System.out.println("Provider enabled by the user. GPS turned on");
+        }
+    };
 
 }

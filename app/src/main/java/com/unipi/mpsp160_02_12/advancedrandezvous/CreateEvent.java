@@ -90,6 +90,9 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(R.string.event_details);
 
+        ActivityCompat.requestPermissions(this,
+                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},123);
+
 
 
         cancelEventButton = (Button)findViewById(R.id.cancel_creation_button);
@@ -301,6 +304,7 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
         Criteria criteria = new Criteria();
 
         if (ActivityCompat.checkSelfPermission(CreateEvent.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             System.out.println("Is provider enabled? " + locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER));
             System.out.println("Is provider enabled? " + locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER));
             Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
@@ -352,4 +356,28 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
         finish();
         startActivity(getIntent());
     }
+
+
+    private LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
+
 }
