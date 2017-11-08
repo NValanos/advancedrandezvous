@@ -1,7 +1,6 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous;
 
 import android.content.Intent;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -46,14 +45,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        settingsButton = (Button)findViewById(R.id.settings);
-//        settingsButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, DashBoard.class);
-//                startActivity(intent);
-//            }
-//        });
 
         btnfriends = (Button)findViewById(R.id.friends_button);
         btnfriends.setOnClickListener(new View.OnClickListener() {
@@ -74,14 +65,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()) {
 
             case R.id.action_settings:
-                Intent  intent = new Intent(this, SettingsActivity.class);
+                intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
 
-            case R.id.action_logout:
+            case R.id.action_account:
+                intent = new Intent(this, DashBoard.class);
+                startActivity(intent);
                 return true;
 
             default:

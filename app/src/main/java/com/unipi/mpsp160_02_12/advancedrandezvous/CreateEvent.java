@@ -48,6 +48,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.unipi.mpsp160_02_12.advancedrandezvous.Auth.DashBoard;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.Event;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.LatLong;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.Participant;
@@ -276,6 +277,7 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
                     Intent intent = new Intent(CreateEvent.this, EventActivity.class);
                     intent.putExtra("id", id);
                     startActivity(intent);
+                    finish();
                 }
                 else{
                     Toast.makeText(CreateEvent.this, "Failed to create event", Toast.LENGTH_SHORT).show();
@@ -346,14 +348,17 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()) {
 
             case R.id.action_settings:
-                Intent  intent = new Intent(this, SettingsActivity.class);
+                intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
 
-            case R.id.action_logout:
+            case R.id.action_account:
+                intent = new Intent(this, DashBoard.class);
+                startActivity(intent);
                 return true;
 
             default:

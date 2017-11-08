@@ -36,7 +36,7 @@
     <string name="title_activity_maps">Χάρτης</string>
     <string name="check_in_button">Έλεγχος</string>
     <string name="title_activity_settings">Ρυθμίσεις</string>
-    <string name="action_logout">Αποσύνδεση</string>
+    <string name="action_account">Λογαριασμός</string>
 
     <!-- Friend Activity -->
     <string name="add">Πρόσθεση</string>

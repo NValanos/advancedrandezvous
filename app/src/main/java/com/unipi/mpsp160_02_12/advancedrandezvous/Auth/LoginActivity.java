@@ -39,8 +39,11 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         //Check already session, if ok-> Dashboard
-        if(auth.getCurrentUser() != null)
+        if(auth.getCurrentUser() != null){
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
+
 
         //View
         input_email = (EditText)findViewById(R.id.login_input_email);
@@ -106,8 +109,10 @@ public class LoginActivity extends AppCompatActivity {
                                         .child(firebaseUser.getUid())
                                         .child("instanceId")
                                         .setValue(instanceId);
-//        }
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                finish();
                             }
                         }
                     }

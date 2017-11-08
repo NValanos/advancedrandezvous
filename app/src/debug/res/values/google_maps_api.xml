@@ -21,10 +21,6 @@
     string in this file.
     -->
 
-    //Dimitris
 
-    <!--<string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDvd3tcxdZm_1dlOFjRdGJjeddi3mTixwQ</string>-->
-
-    //Nikos
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyB-uRyPE-xgLpR4tv7TSqG0Kg8wjHauJJ4</string>
 </resources>

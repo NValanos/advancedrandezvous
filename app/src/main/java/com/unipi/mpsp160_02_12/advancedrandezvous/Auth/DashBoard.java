@@ -86,7 +86,10 @@ public class DashBoard extends AppCompatActivity {
     private void logoutUser(){
         auth.signOut();
         if (auth.getCurrentUser() == null){
-            startActivity(new Intent(DashBoard.this, LoginActivity.class));
+            Intent intent = new Intent(DashBoard.this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+
             finish();
         }
     }

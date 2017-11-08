@@ -1,10 +1,8 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -27,7 +25,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -39,6 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.unipi.mpsp160_02_12.advancedrandezvous.Auth.DashBoard;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.Event;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.LatLong;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.Participant;
@@ -252,7 +250,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                     Date currentTime = Calendar.getInstance().getTime();
                     Calendar afterEventDate = Calendar.getInstance();
                     afterEventDate.setTime(eventDate);
-                    afterEventDate.add(Calendar.HOUR_OF_DAY, 1);
+                    afterEventDate.add(Calendar.MINUTE, 15);
                     System.out.println(currentTime.toString());
                     System.out.println(eventDate.toString());
                     if (currentTime.after(eventDate) && currentTime.before(afterEventDate.getTime())){
@@ -279,7 +277,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                                     }
                                 });
                     }
-                    else if (currentTime.after(eventDate)){
+                    else if (currentTime.after(afterEventDate.getTime())){
                         Toast.makeText(this, "The event date has passed", Toast.LENGTH_SHORT).show();
                     }
                     else{
@@ -330,14 +328,17 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()) {
 
             case R.id.action_settings:
-                Intent  intent = new Intent(this, SettingsActivity.class);
+                intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
 
-            case R.id.action_logout:
+            case R.id.action_account:
+                intent = new Intent(this, DashBoard.class);
+                startActivity(intent);
                 return true;
 
             default:

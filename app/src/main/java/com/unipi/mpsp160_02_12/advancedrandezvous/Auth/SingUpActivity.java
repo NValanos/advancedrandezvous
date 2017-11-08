@@ -92,6 +92,7 @@ public class SingUpActivity extends AppCompatActivity {
                             //Create User to Database
                             createNewUser(input_username.getText().toString(), input_email.getText().toString(), auth.getCurrentUser().getUid());
                             startActivity(new Intent(SingUpActivity.this, MainActivity.class));
+                            finish();
                         }
                     }
                 });
