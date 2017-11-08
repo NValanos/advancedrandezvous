@@ -1,6 +1,5 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous;
 
-import android.*;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -25,6 +24,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -52,6 +52,7 @@ import com.unipi.mpsp160_02_12.advancedrandezvous.models.Event;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.LatLong;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.Participant;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.User;
+import com.unipi.mpsp160_02_12.advancedrandezvous.models.WorkaroundMapFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,6 +70,7 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
     private EditText dateInputText;
     private EditText timeInputText;
     private GoogleMap mMap;
+    private ScrollView mScrollView;
     PlaceAutocompleteFragment placeAutoComplete;
     private static LatLng location;
     private DatePickerDialog datePickerDialog;
@@ -215,9 +217,21 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.create_event_map);
+
+        //+=+=+=+= Custom SupportMapFragment so that we can override its touch event =+=+=+=+
+        mScrollView = (ScrollView) findViewById(R.id.create_event_ScrollView);
+
+        WorkaroundMapFragment mapFragment = ((WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.create_event_map));
         mapFragment.getMapAsync(this);
+
+        ((WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.create_event_map))
+                .setListener(new WorkaroundMapFragment.OnTouchListener() {
+                    @Override
+                    public void onTouch() {
+                        mScrollView.requestDisallowInterceptTouchEvent(true);
+                    }
+                });
+        //+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
         createEventButton = (Button)findViewById(R.id.create_event_button);
         createEventButton.setOnClickListener(new View.OnClickListener() {

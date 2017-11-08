@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.Event;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.LatLong;
 import com.unipi.mpsp160_02_12.advancedrandezvous.models.Participant;
+import com.unipi.mpsp160_02_12.advancedrandezvous.models.WorkaroundMapFragment;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -53,6 +55,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     private TextView titleTextView;
     private TextView dateTextView;
     private GoogleMap mMap;
+    private ScrollView myScrollView;
     private DatabaseReference databaseReference;
     private DatabaseReference ref;
     private Event event;
@@ -100,9 +103,20 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         });
 
 
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map);
+        //+=+=+=+= Custom SupportMapFragment so that we can override its touch event =+=+=+=+
+        myScrollView = (ScrollView) findViewById(R.id.event_ScrollView);
+
+        WorkaroundMapFragment mapFragment = ((WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
         mapFragment.getMapAsync(this);
+
+        ((WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+                .setListener(new WorkaroundMapFragment.OnTouchListener() {
+                    @Override
+                    public void onTouch() {
+                        myScrollView.requestDisallowInterceptTouchEvent(true);
+                    }
+                });
+        //+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         ref = databaseReference.child("events");
