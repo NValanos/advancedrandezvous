@@ -2,6 +2,15 @@
 <resources>
     <string name="settings">settings</string>
 
+    <!-- Strings related to SingUp Activity -->
+    <string name="signup_username">Enter your Username</string>
+    <string name="signup_email">Enter your Email</string>
+    <string name="signup_password">Enter your Password</string>
+    <string name="signup_register">Register</string>
+    <string name="signup_forgot_pass">Forgot Password ?</string>
+    <string name="signup_login">Already have an account ? Login !</string>
+    <string name="signup_or">OR</string>
+
 
     <!-- Strings related to Create Event Activity -->
     <string name="creat_event_textview">Create Event</string>
