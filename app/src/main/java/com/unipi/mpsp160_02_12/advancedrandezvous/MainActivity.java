@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Button manageEventsButton;
     private Button createEventButton;
-    private Button settingsButton;
     private Button btnfriends;
 
     @Override

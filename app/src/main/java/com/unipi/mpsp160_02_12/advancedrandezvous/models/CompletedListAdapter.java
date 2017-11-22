@@ -43,7 +43,6 @@ public class CompletedListAdapter extends ArrayAdapter<Event> {
 
         if (p != null) {
             TextView tt1 = (TextView) v.findViewById(R.id.completed_event_row_title);
-            TextView tt2 = (TextView) v.findViewById(R.id.completed_event_row_date);
 
             if (tt1 != null) {
                 tt1.setText(p.getTitle());
@@ -56,11 +55,6 @@ public class CompletedListAdapter extends ArrayAdapter<Event> {
                     }
                 });
             }
-
-//            if (tt2 != null) {
-//                tt2.setText(p);
-//            }
-
         }
 
         return v;

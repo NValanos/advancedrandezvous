@@ -11,6 +11,27 @@
     <string name="signup_login">Already have an account ? Login !</string>
     <string name="signup_or">OR</string>
 
+    <!-- Strings related to Login Activity -->
+    <string name="login_email">Enter your email</string>
+    <string name="login_password">Enter your password</string>
+    <string name="login_btn_login">Login</string>
+    <string name="login_btn_forgot_pass">Forgot Password ?</string>
+    <string name="login_btn_or">OR</string>
+    <string name="login_btn_sign_up">Sign Up</string>
+
+    <!-- Strings related to Forgot Password Activity -->
+    <string name="forgotpass_title">We need your registered email to sent your password reset instructions</string>
+    <string name="forgotpass_email">Enter your email</string>
+    <string name="forgotpass_btn_reset">Reset Password</string>
+    <string name="forgotpass_btn_back">Back</string>
+
+
+    <!-- Strings related to DashBoard Activity -->
+    <string name="dashboard_msg">Welcome</string>
+    <string name="dashboard_new_pass">Enter new password</string>
+    <string name="dashboard_change_pass">Change Password</string>
+    <string name="dashboard_btn_logout">Logout</string>
+
 
     <!-- Strings related to Create Event Activity -->
     <string name="creat_event_textview">Create Event</string>

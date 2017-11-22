@@ -13,6 +13,29 @@
     <string name="signup_or">Η</string>
 
 
+    <!-- Strings related to Login Activity -->
+    <string name="login_email">Ηλεκτρ/Ταχυδρ</string>
+    <string name="login_password">Κωδικός Χρήστη</string>
+    <string name="login_btn_login">Είσοδος</string>
+    <string name="login_btn_forgot_pass">Ξέχασες τον κωδικό ;</string>
+    <string name="login_btn_or">Η</string>
+    <string name="login_btn_sign_up">Εγγραφή</string>
+
+
+    <!-- Strings related to Forgot Password Activity -->
+    <string name="forgotpass_title">Χρειαζόμαστε το ηλεκτρονικό ταχυδρομείο σας για να σας στείλουμε τις οδηγίες επαναφοράς κωδικού πρόσβασης</string>
+    <string name="forgotpass_email">Ηλεκτρ/Ταχυδρ</string>
+    <string name="forgotpass_btn_reset">Επαναφορά Κωδικού</string>
+    <string name="forgotpass_btn_back">Πίσω</string>
+
+
+    <!-- Strings related to DashBoard Activity -->
+    <string name="dashboard_msg">Καλωσήλθες</string>
+    <string name="dashboard_new_pass">Καινούργιος Κωδικός</string>
+    <string name="dashboard_change_pass">Αλλαγή Κωδικού</string>
+    <string name="dashboard_btn_logout">Έξοδος</string>
+
+
     <!-- Strings related to Create Event Activity -->
     <string name="creat_event_textview">Δημιουργία Εκδήλωσης</string>
     <string name="create_event_title">Τίτλος</string>

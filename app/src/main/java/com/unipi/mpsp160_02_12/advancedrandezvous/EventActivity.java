@@ -44,6 +44,7 @@ import com.unipi.mpsp160_02_12.advancedrandezvous.models.WorkaroundMapFragment;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
@@ -157,39 +158,75 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
         });
         System.err.println("after listener");
 
+
         //+=+=+=+=+=Spinner=+=+=+=+=+
-        final String eventKey = getIntent().getStringExtra("id");
+        final String eventId = getIntent().getStringExtra("id");
 
         auth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("events").child(eventKey).child("participantsIdList").orderByChild("id").equalTo(auth.getCurrentUser().getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("events").child(eventId)
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot participSnapShot: dataSnapshot.getChildren()){
-                            participant = participSnapShot.getValue(Participant.class);
+                        event = dataSnapshot.getValue(Event.class);
 
-                            Spinner spinner = (Spinner)findViewById(R.id.spinnerState);
+                        List<Participant> partList;
+                        partList = event.getParticipantsIdList();
+
+                        if (event.isActive()){
+                            // Event is Active spinner is Enabled
+                            for (Participant participant: partList){
+                                if (participant.getId().equals(auth.getCurrentUser().getUid())){
+
+                                    Spinner spinner = (Spinner)findViewById(R.id.spinnerState);
 
 
-                            ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(EventActivity.this, R.array.state, android.R.layout.simple_spinner_item);
-                            stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            spinner.setAdapter(stateAdapter);
-                            int index = 0;
-                            for (int i=0; i<spinner.getCount(); i++){
-                                if (spinner.getItemAtPosition(i).equals(participant.getTag())){
-                                    index = i;
+                                    ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(EventActivity.this, R.array.state, android.R.layout.simple_spinner_item);
+                                    stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    spinner.setAdapter(stateAdapter);
+                                    int index = 0;
+                                    for (int i=0; i<spinner.getCount(); i++){
+                                        if (spinner.getItemAtPosition(i).equals(participant.getTag())){
+                                            index = i;
+                                        }
+                                    }
+                                    spinner.setSelection(index);
+                                    spinner.setOnItemSelectedListener(EventActivity.this);
                                 }
                             }
-                            spinner.setSelection(index);
-                            spinner.setOnItemSelectedListener(EventActivity.this);
+                        } else {
+                            // Event is Completed spinner is Disabled
+                            for (Participant participant: partList){
+                                if (participant.getId().equals(auth.getCurrentUser().getUid())){
+
+                                    Spinner spinner = (Spinner)findViewById(R.id.spinnerState);
+
+                                    spinner.setEnabled(false);
+
+
+                                    ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(EventActivity.this, R.array.state, android.R.layout.simple_spinner_item);
+                                    stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    spinner.setAdapter(stateAdapter);
+                                    int index = 0;
+                                    for (int i=0; i<spinner.getCount(); i++){
+                                        if (spinner.getItemAtPosition(i).equals(participant.getTag())){
+                                            index = i;
+                                        }
+                                    }
+                                    spinner.setSelection(index);
+                                    spinner.setOnItemSelectedListener(EventActivity.this);
+                                }
+                            }
+
                         }
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
                 });
+
     }
 
     @Override
@@ -200,7 +237,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         final String stateSelected = parent.getItemAtPosition(position).toString();
-        if ("Accept".equals(stateSelected)){
+        if ("Accept".equals(stateSelected) && event.isActive()){
             checkInButton.setVisibility(View.VISIBLE);
         }
         else{
