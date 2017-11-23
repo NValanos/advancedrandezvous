@@ -159,28 +159,26 @@ public class FriendsActivity extends AppCompatActivity {
         View parent = (View)view.getParent();
         Friend friendToDelete = friendsArrayList.get(list.getPositionForView(parent));
 
-
         databaseReference = FirebaseDatabase.getInstance().getReference("users").child(auth.getCurrentUser().getUid()).child("friends");
-        Query removeQuery = databaseReference.orderByChild("email").equalTo(friendToDelete.getEmail());
+        databaseReference.orderByChild("email").equalTo(friendToDelete.getEmail())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot!=null && dataSnapshot.getChildren()!=null && dataSnapshot.getChildren().iterator().hasNext()){
 
-        removeQuery.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot!=null && dataSnapshot.getChildren()!=null && dataSnapshot.getChildren().iterator().hasNext()){
-
-                    for (DataSnapshot removeSnapshot: dataSnapshot.getChildren()){
-                        String fid = removeSnapshot.child("id").getValue().toString();
-                        dataSnapshot.getRef().child(fid).removeValue();
+                            for (DataSnapshot removeSnapshot: dataSnapshot.getChildren()){
+                                String fid = removeSnapshot.child("id").getValue().toString();
+                                dataSnapshot.getRef().child(fid).removeValue();
+                            }
+                        }
+                        loadList();
                     }
-                }
-                loadList();
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, "onCancelled", databaseError.toException());
-            }
-        });
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     public void addParticipant(View view){
