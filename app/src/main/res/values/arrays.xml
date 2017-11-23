@@ -5,4 +5,9 @@
         <item>Accept</item>
         <item>Deny</item>
     </string-array>
+
+    <string-array name="complete_state">
+        <item>Participated</item>
+        <item>Not Participated</item>
+    </string-array>
 </resources>

@@ -90,37 +90,6 @@ public class ManageParticipantsActivity extends AppCompatActivity {
         loadList();
     }
 
-
-//    public void deleteFriend(View view){
-//        View parent = (View)view.getParent();
-//        TextView taskTextView = (TextView)parent.findViewById(R.id.friend);
-//        String task = String.valueOf(taskTextView.getText());
-//
-//
-//        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(auth.getCurrentUser().getUid()).child("friends");
-//        Query removeQuery = databaseReference.orderByChild("email").equalTo(task);
-//
-//        removeQuery.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if(dataSnapshot!=null && dataSnapshot.getChildren()!=null && dataSnapshot.getChildren().iterator().hasNext()){
-//
-//                    for (DataSnapshot removeSnapshot: dataSnapshot.getChildren()){
-//                        String fid = removeSnapshot.child("id").getValue().toString();
-//                        dataSnapshot.getRef().child(fid).removeValue();
-//                    }
-//                }
-//                loadList();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                Log.e(TAG, "onCancelled", databaseError.toException());
-//            }
-//        });
-//    }
-
-
     private void loadList(){
 
         //Init Firebase

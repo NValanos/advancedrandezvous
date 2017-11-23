@@ -151,8 +151,6 @@ public class FriendsActivity extends AppCompatActivity {
         else{
             addParticipant(view);
         }
-
-
     }
 
     public void deleteFriend(View view){

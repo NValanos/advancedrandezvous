@@ -82,10 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
-
 
     private void loginUser(String email, final String password) {
         auth.signInWithEmailAndPassword(email, password)

@@ -63,7 +63,6 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     private Button managePartitipantsButton;
     private Button checkInButton;
     private LocationManager locationManager;
-    private Participant participant;
 
     private FirebaseAuth auth;
 
@@ -204,7 +203,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                                     spinner.setEnabled(false);
 
 
-                                    ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(EventActivity.this, R.array.state, android.R.layout.simple_spinner_item);
+                                    ArrayAdapter<CharSequence> stateAdapter = ArrayAdapter.createFromResource(EventActivity.this, R.array.complete_state, android.R.layout.simple_spinner_item);
                                     stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     spinner.setAdapter(stateAdapter);
                                     int index = 0;
