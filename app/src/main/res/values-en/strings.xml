@@ -71,4 +71,24 @@
     <!-- Friend Activity -->
     <string name="add">Add</string>
     <string name="delete">Delete</string>
+
+    <!-- Toasts -->
+    <string name="welcome">Welcome to the event</string>
+    <string name="passed">The event date has passed</string>
+    <string name="early">It is not time for the event yet</string>
+    <string name="away">Please get close to the event to check in</string>
+    <string name="localtionErr">Cannot establish location. GPS usage permission is denied</string>
+    <string name="addTitle">PLEASE ADD TITLE</string>
+    <string name="addDate">PLEASE ADD DATE</string>
+    <string name="addTime">PLEASE ADD TIME</string>
+    <string name="addLocation">PLEASE ADD LOCATION</string>
+    <string name="insertMail">PLEASE INSERT EMAIL ADDRESS</string>
+    <string name="insertPass">PLEASE INSERT PASSWORD</string>
+    <string name="passLength">Password length must be over 6</string>
+    <string name="error">Error: "</string>
+    <string name="regSuc">Register Success</string>
+    <string name="pasChange">Password Changed</string>
+
+    <string name="welcomeUser">Welcome , </string>
+
 </resources>

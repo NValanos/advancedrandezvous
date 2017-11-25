@@ -54,11 +54,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v){
 
                 if ("".equals(input_email.getText().toString())){
-                    Toast.makeText(LoginActivity.this, "PLEASE INSERT EMAIL ADDRESS", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, R.string.insertMail, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if ("".equals(input_password.getText().toString())){
-                    Toast.makeText(LoginActivity.this, "PLEASE INSERT PASSWORD ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, R.string.insertPass, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 loginUser(input_email.getText().toString(), input_password.getText().toString());
@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (!task.isSuccessful()){
                             if (password.length() < 6){
 
-                                Toast.makeText(getApplicationContext(),"Password length must be over 6",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),R.string.passLength,Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             System.out.println("inside onComplete");

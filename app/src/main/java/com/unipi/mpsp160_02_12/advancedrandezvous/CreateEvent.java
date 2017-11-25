@@ -4,7 +4,9 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -86,6 +88,16 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences languagepref = getSharedPreferences("language",MODE_PRIVATE);
+        String language = languagepref.getString("languageToLoad", "novalue");
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+
         setContentView(R.layout.activity_create_event);
         Calendar newCalendar = Calendar.getInstance();
         Toolbar myToolbar = (Toolbar) findViewById(R.id.create_event_toolbar);
@@ -240,22 +252,22 @@ public class CreateEvent extends AppCompatActivity implements OnMapReadyCallback
             public void onClick(View v) {
 
                 if ("".equals(titleEditText.getText().toString())){
-                    Toast.makeText(CreateEvent.this, "PLEASE ADD TITLE", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateEvent.this, R.string.addTitle, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if ("".equals(dateInputText.getText().toString())){
-                    Toast.makeText(CreateEvent.this, "PLEASE ADD DATE", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateEvent.this, R.string.addDate ,Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if ("".equals(timeInputText.getText().toString())){
-                    Toast.makeText(CreateEvent.this, "PLEASE ADD TIME", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateEvent.this, R.string.addTime, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (location == null){
-                    Toast.makeText(CreateEvent.this, "PLEASE ADD LOCATION", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateEvent.this, R.string.addLocation, Toast.LENGTH_SHORT).show();
                     return;
                 }
 

@@ -46,7 +46,7 @@ public class DashBoard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if ("".equals(input_new_password.getText().toString())){
-                    Toast.makeText(getApplicationContext(),"PLEASE INSERT NEW PASSWORD", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),R.string.insertPass, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 changePassword(input_new_password.getText().toString());
@@ -71,7 +71,7 @@ public class DashBoard extends AppCompatActivity {
             mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    txtWelcome.setText("Welcome , "+dataSnapshot.child(auth.getCurrentUser().getUid()).child("username").getValue());
+                    txtWelcome.setText(R.string.welcomeUser + "" +dataSnapshot.child(auth.getCurrentUser().getUid()).child("username").getValue());
                 }
 
                 @Override
@@ -100,7 +100,7 @@ public class DashBoard extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(),"Password Changed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),R.string.pasChange,Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -2,7 +2,9 @@ package com.unipi.mpsp160_02_12.advancedrandezvous;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -45,6 +47,7 @@ import com.unipi.mpsp160_02_12.advancedrandezvous.models.WorkaroundMapFragment;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
@@ -69,6 +72,16 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences languagepref = getSharedPreferences("language",MODE_PRIVATE);
+        String language = languagepref.getString("languageToLoad", "novalue");
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+
         setContentView(R.layout.event_activity);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.event_toolbar);
         myToolbar.setTitleTextColor(getResources().getColor(R.color.amber));
@@ -290,7 +303,7 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                     System.out.println(currentTime.toString());
                     System.out.println(eventDate.toString());
                     if (currentTime.after(eventDate) && currentTime.before(afterEventDate.getTime())){
-                        Toast.makeText(this, "Welcome to the event", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.welcome, Toast.LENGTH_SHORT).show();
                         final String eventKey = getIntent().getStringExtra("id");
 
                         auth = FirebaseAuth.getInstance();
@@ -314,20 +327,20 @@ public class EventActivity extends AppCompatActivity implements OnMapReadyCallba
                                 });
                     }
                     else if (currentTime.after(afterEventDate.getTime())){
-                        Toast.makeText(this, "The event date has passed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.passed, Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        Toast.makeText(this, "It is not time for the event yet", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.early, Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
-                    Toast.makeText(this, "Please get close to the event to check in", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.away, Toast.LENGTH_SHORT).show();
                 }
 
             }
         }
         else{
-            Toast.makeText(EventActivity.this, "Cannot establish location. GPS usage permission is denied", Toast.LENGTH_LONG).show();
+            Toast.makeText(EventActivity.this, R.string.localtionErr ,Toast.LENGTH_LONG).show();
         }
 
     }

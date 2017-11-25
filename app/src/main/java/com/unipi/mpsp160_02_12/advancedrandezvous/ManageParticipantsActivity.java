@@ -1,6 +1,8 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -24,6 +26,7 @@ import com.unipi.mpsp160_02_12.advancedrandezvous.models.Participant;
 
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
@@ -45,6 +48,16 @@ public class ManageParticipantsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences languagepref = getSharedPreferences("language",MODE_PRIVATE);
+        String language = languagepref.getString("languageToLoad", "novalue");
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+
         setContentView(R.layout.manage_participants_layout);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.participants_toolbar);
         myToolbar.setTitleTextColor(getResources().getColor(R.color.amber));

@@ -49,11 +49,11 @@ public class SingUpActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if ("".equals(input_email.getText().toString())){
-                    Toast.makeText(SingUpActivity.this, "PLEASE INSERT EMAIL ADDRESS", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SingUpActivity.this, R.string.insertMail, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if ("".equals(input_pass.getText().toString())){
-                    Toast.makeText(SingUpActivity.this, "PLEASE INSERT PASSWORD ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SingUpActivity.this, R.string.insertPass, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 singUpUser(input_email.getText().toString(), input_pass.getText().toString());
@@ -85,10 +85,10 @@ public class SingUpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(!task.isSuccessful()){
-                            Toast.makeText(getApplicationContext(),"Error: " + task.getException(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),R.string.error + "" +task.getException(), Toast.LENGTH_SHORT).show();
 
                         } else{
-                            Toast.makeText(getApplicationContext(),"Register Success ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),R.string.regSuc, Toast.LENGTH_SHORT).show();
                             //Create User to Database
                             createNewUser(input_username.getText().toString(), input_email.getText().toString(), auth.getCurrentUser().getUid());
                             startActivity(new Intent(SingUpActivity.this, MainActivity.class));

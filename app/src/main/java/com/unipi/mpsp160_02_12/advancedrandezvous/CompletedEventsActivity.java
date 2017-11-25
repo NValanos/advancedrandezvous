@@ -1,6 +1,8 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous;
 
 import android.app.ListActivity;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
@@ -19,6 +21,7 @@ import com.unipi.mpsp160_02_12.advancedrandezvous.models.Participant;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static android.R.id.list;
 import static android.content.ContentValues.TAG;
@@ -37,6 +40,16 @@ public class CompletedEventsActivity extends ListActivity {
 
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+
+            SharedPreferences languagepref = getSharedPreferences("language",MODE_PRIVATE);
+            String language = languagepref.getString("languageToLoad", "novalue");
+            Locale locale = new Locale(language);
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+
             setContentView(R.layout.completed_events_list);
 
             completedList = (ListView)findViewById(list);
@@ -81,4 +94,5 @@ public class CompletedEventsActivity extends ListActivity {
                 }
             });
         }
+
 }

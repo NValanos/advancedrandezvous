@@ -75,4 +75,23 @@
     <string name="add">Πρόσθεση</string>
     <string name="delete">Διαγραφή</string>
 
+    <!-- Toast -->
+    <string name="welcome">Καλωσήρθατε</string>
+    <string name="passed">Η εκ΄δηλωση έχει περάσει</string>
+    <string name="early">Δεν είναι ακόμα ώρα για την εκδήλωση</string>
+    <string name="away">Παρακαλούμε πλησιάστε περισσότερο στο σημείο της εκδήλωσης για να επιβεβαιώσεται την άφιξή σας</string>
+    <string name="localtionErr">Αδυναμία εντοπισμού τοποθεσίας. Δεν έχουν παραχωρηθεί δικαώματα GPS </string>
+    <string name="addTitle">ΠΑΡΑΚΑΛΟΎΜΕ ΠΡΟΣΘΈΣΤΕ ΤΙΤΛΟ</string>
+    <string name="addDate">ΠΑΡΑΚΑΛΟΥΜΕ ΠΡΟΣΘΕΣΤΕ ΗΜΕΡΟΜΗΝΙΑ</string>
+    <string name="addTime">ΠΑΡΑΚΑΛΟΥΜΕ ΠΡΟΣΘΕΣΤΕ ΩΡΑ</string>
+    <string name="addLocation">ΠΑΡΑΚΑΛΟΥΜΕ ΠΡΟΣΘΕΣΤΕ ΤΟΠΟΘΕΣΙΑ</string>
+    <string name="insertMail">ΠΑΡΑΚΑΛΥΜΕ ΠΡΟΣΘΕΣΤΕ EMAIL</string>
+    <string name="insertPass">ΠΑΡΑΚΑΛΟΥΜΕ ΠΡΟΣΘΕΣΤΕ ΚΩΔΙΚΟ</string>
+    <string name="passLength">Το μέγεθος του κωδικού πρέπει να είναι μεγαλύτερο από 6 χαρακτήρες</string>
+    <string name="error">Σφάλμα: "</string>
+    <string name="regSuc">Επιτυχία εγγραφής</string>
+    <string name="pasChange">Ο κωδικός άλλαξε με επιτυχία</string>
+
+    <string name="welcomeUser">Καλωσήρθες , </string>
+
 </resources>

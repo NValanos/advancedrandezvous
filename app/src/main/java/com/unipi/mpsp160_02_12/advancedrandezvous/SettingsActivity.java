@@ -36,6 +36,16 @@ public class SettingsActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences languagepref = getSharedPreferences("language",MODE_PRIVATE);
+        String language = languagepref.getString("languageToLoad", "novalue");
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+
         setContentView(R.layout.activity_settings);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.settings_toolbar);
         myToolbar.setTitleTextColor(getResources().getColor(R.color.amber));
@@ -69,8 +79,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
 
-        SharedPreferences languagepref = getSharedPreferences("language",MODE_PRIVATE);
-        String language = languagepref.getString("languageToLoad", "novalue");
         if ("el".equals(language)){
             languageRadio2.setChecked(true);
             languageRadio1.setChecked(false);
