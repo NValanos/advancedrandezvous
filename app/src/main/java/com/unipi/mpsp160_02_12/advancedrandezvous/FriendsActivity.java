@@ -97,18 +97,23 @@ public class FriendsActivity extends AppCompatActivity {
             case R.id.action_add_friend:
                 final EditText taskEditText = new EditText(this);
                 AlertDialog dialog = new AlertDialog.Builder(this)
-                        .setTitle("Add a New Friend")
-                        .setMessage("Insert friend's email: ")
+                        .setTitle(R.string.alert_add_friend)
+                        .setMessage(R.string.alert_friend_email)
                         .setView(taskEditText)
-                        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.alert_add, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String task = String.valueOf(taskEditText.getText());
+
+                                if ("".equals(task)){
+                                    Toast.makeText(FriendsActivity.this, R.string.insertMail, Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
                                 //Add friend to Database
                                 createFriend(task);
                             }
                         })
-                        .setNegativeButton("Cancel", null)
+                        .setNegativeButton(R.string.alert_cancel, null)
                         .create();
                 dialog.show();
                 return true;
@@ -140,11 +145,11 @@ public class FriendsActivity extends AppCompatActivity {
 
                         databaseReference = FirebaseDatabase.getInstance().getReference();
                         databaseReference.child("users").child(auth.getCurrentUser().getUid()).child("friends").child(friend.getId()).setValue(friend);
-                        Toast.makeText(FriendsActivity.this,"Friend added Successfully.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FriendsActivity.this, R.string.friend_add_success, Toast.LENGTH_SHORT).show();
                     }
                 }else {
                     //User does not exist to database
-                    Toast.makeText(FriendsActivity.this,"The user does not have the application", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FriendsActivity.this, R.string.friend_not_find, Toast.LENGTH_SHORT).show();
                 }
                 loadList();
 

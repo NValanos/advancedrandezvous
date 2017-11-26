@@ -1,6 +1,8 @@
 package com.unipi.mpsp160_02_12.advancedrandezvous.Auth;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.unipi.mpsp160_02_12.advancedrandezvous.R;
 
+import java.util.Locale;
+
 public class DashBoard extends AppCompatActivity {
 
     private TextView txtWelcome;
@@ -34,6 +38,16 @@ public class DashBoard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences languagepref = getSharedPreferences("language",MODE_PRIVATE);
+        String language = languagepref.getString("languageToLoad", "novalue");
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+
         setContentView(R.layout.activity_dash_board);
 
         //View

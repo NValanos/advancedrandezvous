@@ -27,6 +27,9 @@
     <string name="forgotpass_email">Ηλεκτρ/Ταχυδρ</string>
     <string name="forgotpass_btn_reset">Επαναφορά Κωδικού</string>
     <string name="forgotpass_btn_back">Πίσω</string>
+    <string name="forgotpass_toast_email">Παρακαλώ εισάγεται το Ηλεκτρ/Ταχυδρ</string>
+    <string name="forgotpass_toast_email_success">Αποστείλαμε τον κωδικό στην ηλεκτρ. διευθ: </string>
+    <string name="forgotpass_toast_email_fail">Σφάλμα κατά την αποστολή κωδικού</string>
 
 
     <!-- Strings related to DashBoard Activity -->
@@ -74,10 +77,16 @@
     <!-- Friend Activity -->
     <string name="add">Πρόσθεση</string>
     <string name="delete">Διαγραφή</string>
+    <string name="alert_add_friend">Προσθήκη Φίλου</string>
+    <string name="alert_friend_email">Το email του φίλου σας</string>
+    <string name="alert_add">Προσθήκη</string>
+    <string name="alert_cancel">Ακύρωση</string>
+    <string name="friend_add_success">Ο φίλος σας προστέθηκε με επιτυχία.</string>
+    <string name="friend_not_find">Ο φίλος σας δεν έχει την εφαρμογή.</string>
 
     <!-- Toast -->
     <string name="welcome">Καλωσήρθατε</string>
-    <string name="passed">Η εκ΄δηλωση έχει περάσει</string>
+    <string name="passed">Η εκδήλωση έχει περάσει</string>
     <string name="early">Δεν είναι ακόμα ώρα για την εκδήλωση</string>
     <string name="away">Παρακαλούμε πλησιάστε περισσότερο στο σημείο της εκδήλωσης για να επιβεβαιώσεται την άφιξή σας</string>
     <string name="localtionErr">Αδυναμία εντοπισμού τοποθεσίας. Δεν έχουν παραχωρηθεί δικαώματα GPS </string>
@@ -85,7 +94,7 @@
     <string name="addDate">ΠΑΡΑΚΑΛΟΥΜΕ ΠΡΟΣΘΕΣΤΕ ΗΜΕΡΟΜΗΝΙΑ</string>
     <string name="addTime">ΠΑΡΑΚΑΛΟΥΜΕ ΠΡΟΣΘΕΣΤΕ ΩΡΑ</string>
     <string name="addLocation">ΠΑΡΑΚΑΛΟΥΜΕ ΠΡΟΣΘΕΣΤΕ ΤΟΠΟΘΕΣΙΑ</string>
-    <string name="insertMail">ΠΑΡΑΚΑΛΥΜΕ ΠΡΟΣΘΕΣΤΕ EMAIL</string>
+    <string name="insertMail">ΠΑΡΑΚΑΛΟΥΜΕ ΠΡΟΣΘΕΣΤΕ EMAIL</string>
     <string name="insertPass">ΠΑΡΑΚΑΛΟΥΜΕ ΠΡΟΣΘΕΣΤΕ ΚΩΔΙΚΟ</string>
     <string name="passLength">Το μέγεθος του κωδικού πρέπει να είναι μεγαλύτερο από 6 χαρακτήρες</string>
     <string name="error">Σφάλμα: "</string>

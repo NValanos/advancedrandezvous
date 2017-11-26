@@ -24,6 +24,9 @@
     <string name="forgotpass_email">Enter your email</string>
     <string name="forgotpass_btn_reset">Reset Password</string>
     <string name="forgotpass_btn_back">Back</string>
+    <string name="forgotpass_toast_email">PLEASE INSERT EMAIL ADDRESS</string>
+    <string name="forgotpass_toast_email_success">We have send password to email: </string>
+    <string name="forgotpass_toast_email_fail">Failed to send password</string>
 
 
     <!-- Strings related to DashBoard Activity -->
@@ -71,6 +74,12 @@
     <!-- Friend Activity -->
     <string name="add">Add</string>
     <string name="delete">Delete</string>
+    <string name="alert_add_friend">Add a New Friend</string>
+    <string name="alert_friend_email">Insert friend's email: </string>
+    <string name="alert_add">Add</string>
+    <string name="alert_cancel">Cancel</string>
+    <string name="friend_add_success">Friend added Successfully.</string>
+    <string name="friend_not_find">The user does not have the application</string>
 
     <!-- Toasts -->
     <string name="welcome">Welcome to the event</string>
